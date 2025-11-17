@@ -2,14 +2,15 @@
 // IMPORTANT: Replace these values with your actual Firebase project credentials
 // Get these from Firebase Console > Project Settings > Your apps > Firebase SDK snippet
 
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyB98c1K6XOFCFEsTN3KbiHY4wT9ymoE3KE",
+    authDomain: "edc-bills-trail.firebaseapp.com",
+    projectId: "edc-bills-trail",
+    storageBucket: "edc-bills-trail.firebasestorage.app",
+    messagingSenderId: "424967753520",
+    appId: "1:424967753520:web:305fa7fe5bf4e382f302f5",
+    measurementId: "G-X6FJQTG2Z3"
+  };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -27,8 +28,8 @@ const APP_CONFIG = {
     MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
     ALLOWED_FILE_TYPES: ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'],
     CURRENCY: 'INR',
-    COLLEGE_NAME: 'Your College Name',
-    TRIP_NAME: 'Mumbai Trip 2024'
+    COLLEGE_NAME: 'KPRCAS',
+    TRIP_NAME: 'Mumbai Trip 2025'
 };
 
 // Collection names
