@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Receipt - Trip Expense Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🎒 Trip Expense Manager</div>
+        <div class="nav-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="upload.html" class="active">Upload Receipt</a>
+            <a href="transfers.html">Transfers</a>
+            <a href="reports.html">Reports</a>
+            <a href="admin.html" id="adminLink" class="admin-only hidden">Admin</a>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Upload Receipt</h1>
+            <p>Upload bills and receipts from the Mumbai trip</p>
+        </div>
+
+        <div class="upload-container">
+            <form id="receiptForm" class="upload-form">
+                <div class="form-group">
+                    <label for="tripSelect">Trip *</label>
+                    <select id="tripSelect" required>
+                        <option value="">Select trip...</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="memberName">Your Name *</label>
+                        <input type="text" id="memberName" required placeholder="Full Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount (₹) *</label>
+                        <input type="number" id="amount" required min="0" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input type="date" id="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" required>
+                            <option value="">Select category...</option>
+                            <option value="travel">🚗 Travel</option>
+                            <option value="food">🍽️ Food</option>
+                            <option value="accommodation">🏨 Accommodation</option>
+                            <option value="misc">📦 Miscellaneous</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" required rows="3" placeholder="Brief description of the expense..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="receiptFile">Upload Receipt (Image/PDF) *</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="receiptFile" accept="image/*,.pdf" required hidden>
+                        <div class="file-upload-placeholder">
+                            <span class="upload-icon">📎</span>
+                            <p>Click to upload or drag and drop</p>
+                            <p class="file-info">JPG, PNG, PDF (Max 10MB)</p>
+                        </div>
+                        <div class="file-preview hidden" id="filePreview">
+                            <img id="previewImage" alt="Receipt preview">
+                            <p id="fileName"></p>
+                            <button type="button" class="btn btn-sm" id="removeFile">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span id="submitText">Upload Receipt</span>
+                        <span id="uploadProgress" class="hidden">Uploading... <span id="progressPercent">0%</span></span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="upload-tips">
+                <h3>📌 Tips for uploading receipts:</h3>
+                <ul>
+                    <li>Ensure the receipt is clear and readable</li>
+                    <li>Include all details: date, amount, vendor name</li>
+                    <li>Accepted formats: JPG, PNG, PDF (max 10MB)</li>
+                    <li>You can edit or delete receipts before admin approval</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/upload.js"></script>
+</body>
+</html>

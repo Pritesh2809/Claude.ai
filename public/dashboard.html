@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Trip Expense Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🎒 Trip Expense Manager</div>
+        <div class="nav-menu">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="upload.html">Upload Receipt</a>
+            <a href="transfers.html">Transfers</a>
+            <a href="reports.html">Reports</a>
+            <a href="#" id="adminLink" class="admin-only hidden">Admin</a>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <div class="trip-selector">
+                <label for="tripSelect">Select Trip:</label>
+                <select id="tripSelect" class="form-select">
+                    <option value="">Loading trips...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Expenses</h3>
+                <p class="stat-value" id="totalExpenses">₹0</p>
+                <p class="stat-label">All receipts</p>
+            </div>
+            <div class="stat-card">
+                <h3>My Uploads</h3>
+                <p class="stat-value" id="myUploads">0</p>
+                <p class="stat-label">Receipts uploaded</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Approval</h3>
+                <p class="stat-value" id="pendingCount">0</p>
+                <p class="stat-label">Awaiting verification</p>
+            </div>
+            <div class="stat-card">
+                <h3>Approved</h3>
+                <p class="stat-value" id="approvedCount">0</p>
+                <p class="stat-label">Verified receipts</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Recent Receipts</h2>
+                    <a href="upload.html" class="btn btn-sm btn-primary">+ Upload New</a>
+                </div>
+                <div class="receipts-list" id="recentReceipts">
+                    <p class="loading">Loading receipts...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Category Breakdown</h2>
+                </div>
+                <div class="category-breakdown" id="categoryBreakdown">
+                    <p class="loading">Loading categories...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Recent Transfers</h2>
+                <a href="transfers.html" class="btn btn-sm btn-primary">+ Add Transfer</a>
+            </div>
+            <div class="transfers-list" id="recentTransfers">
+                <p class="loading">Loading transfers...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

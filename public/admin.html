@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Trip Expense Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🎒 Trip Expense Manager</div>
+        <div class="nav-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="upload.html">Upload Receipt</a>
+            <a href="transfers.html">Transfers</a>
+            <a href="reports.html">Reports</a>
+            <a href="admin.html" class="active admin-only">Admin</a>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🔐 Admin Dashboard</h1>
+            <p>Verify and approve receipts and transfers</p>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-card pending">
+                <h3>Pending Verification</h3>
+                <p class="stat-value" id="pendingCount">0</p>
+            </div>
+            <div class="stat-card approved">
+                <h3>Approved</h3>
+                <p class="stat-value" id="approvedCount">0</p>
+            </div>
+            <div class="stat-card rejected">
+                <h3>Rejected</h3>
+                <p class="stat-value" id="rejectedCount">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Amount</h3>
+                <p class="stat-value" id="totalAmount">₹0</p>
+            </div>
+        </div>
+
+        <div class="admin-filters">
+            <select id="tripFilter" class="form-select">
+                <option value="">All Trips</option>
+            </select>
+            <select id="statusFilter" class="form-select">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+            </select>
+            <select id="categoryFilter" class="form-select">
+                <option value="">All Categories</option>
+                <option value="travel">Travel</option>
+                <option value="food">Food</option>
+                <option value="accommodation">Accommodation</option>
+                <option value="misc">Miscellaneous</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Receipts for Verification</h2>
+                <div class="header-actions">
+                    <button class="btn btn-sm" id="refreshBtn">🔄 Refresh</button>
+                </div>
+            </div>
+            <div class="receipts-table" id="receiptsTable">
+                <p class="loading">Loading receipts...</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>User Management</h2>
+            </div>
+            <div class="user-management">
+                <form id="addUserForm" class="inline-form">
+                    <input type="email" id="userEmail" placeholder="user@college.edu" required>
+                    <select id="userRole" required>
+                        <option value="member">Member</option>
+                        <option value="admin">Admin</option>
+                        <option value="viewer">Viewer</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary">Add User</button>
+                </form>
+                <div class="users-list" id="usersList">
+                    <p class="loading">Loading users...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Detail Modal -->
+    <div id="receiptModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Receipt Details</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <div class="verification-actions">
+                    <textarea id="adminComment" placeholder="Add a comment (optional)..." rows="2"></textarea>
+                    <div class="action-buttons">
+                        <button class="btn btn-danger" id="rejectBtn">❌ Reject</button>
+                        <button class="btn btn-success" id="approveBtn">✅ Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

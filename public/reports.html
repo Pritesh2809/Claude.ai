@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Trip Expense Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🎒 Trip Expense Manager</div>
+        <div class="nav-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="upload.html">Upload Receipt</a>
+            <a href="transfers.html">Transfers</a>
+            <a href="reports.html" class="active">Reports</a>
+            <a href="admin.html" id="adminLink" class="admin-only hidden">Admin</a>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>📊 Reports & Export</h1>
+            <p>Generate consolidated expense reports for college submission</p>
+        </div>
+
+        <div class="report-filters card">
+            <h2>Report Configuration</h2>
+            <form id="reportForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tripSelect">Select Trip *</label>
+                        <select id="tripSelect" required>
+                            <option value="">Select trip...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportStatus">Receipt Status</label>
+                        <select id="reportStatus">
+                            <option value="approved">Approved Only</option>
+                            <option value="all">All Receipts</option>
+                            <option value="pending">Pending Only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateFrom">From Date</label>
+                        <input type="date" id="dateFrom">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateTo">To Date</label>
+                        <input type="date" id="dateTo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="includeTransfers" checked>
+                        Include money transfers in report
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="previewBtn">👁️ Preview</button>
+                    <button type="button" class="btn btn-primary" id="exportPdfBtn">📄 Export PDF</button>
+                    <button type="button" class="btn btn-primary" id="exportCsvBtn">📊 Export CSV</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="report-summary card">
+            <h2>Report Summary</h2>
+            <div id="reportSummary">
+                <p class="info-text">Configure filters above and click Preview to see the report summary</p>
+            </div>
+        </div>
+
+        <div class="report-preview card" id="reportPreview" style="display: none;">
+            <div class="card-header">
+                <h2>Report Preview</h2>
+                <button class="btn btn-sm" id="refreshPreview">🔄 Refresh</button>
+            </div>
+            <div id="previewContent">
+                <!-- Preview content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

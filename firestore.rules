@@ -1,0 +1,101 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      // Anyone can read their own user document
+      allow read: if isSignedIn();
+
+      // Users can create their own profile
+      allow create: if isSignedIn() && request.auth.uid == userId;
+
+      // Users can update their own profile, admins can update any
+      allow update: if isOwner(userId) || isAdmin();
+
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+
+    // Trips collection
+    match /trips/{tripId} {
+      // Anyone signed in can read trips
+      allow read: if isSignedIn();
+
+      // Only admins can create, update, or delete trips
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Receipts collection
+    match /receipts/{receiptId} {
+      // Anyone signed in can read receipts (for transparency)
+      allow read: if isSignedIn();
+
+      // Users can create receipts
+      allow create: if isSignedIn() &&
+                       request.resource.data.uploaderId == request.auth.uid;
+
+      // Users can update their own receipts if not yet verified
+      // Admins can update any receipt
+      allow update: if isAdmin() ||
+                       (isOwner(resource.data.uploaderId) &&
+                        resource.data.status == 'pending');
+
+      // Users can delete their own pending receipts
+      // Admins can delete any receipt
+      allow delete: if isAdmin() ||
+                       (isOwner(resource.data.uploaderId) &&
+                        resource.data.status == 'pending');
+    }
+
+    // Transfers collection
+    match /transfers/{transferId} {
+      // Anyone signed in can read transfers
+      allow read: if isSignedIn();
+
+      // Users can create transfers
+      allow create: if isSignedIn() &&
+                       request.resource.data.payerId == request.auth.uid;
+
+      // Users can update their own transfers
+      // Admins can update any transfer
+      allow update: if isAdmin() || isOwner(resource.data.payerId);
+
+      // Users can delete their own transfers
+      // Admins can delete any transfer
+      allow delete: if isAdmin() || isOwner(resource.data.payerId);
+    }
+
+    // Audit log collection
+    match /audit_log/{logId} {
+      // Only admins can read audit logs
+      allow read: if isAdmin();
+
+      // System can write audit logs (all signed-in users)
+      allow create: if isSignedIn();
+
+      // No updates or deletes allowed
+      allow update, delete: if false;
+    }
+
+    // Pending users collection (for admin user management)
+    match /pending_users/{userId} {
+      // Only admins can read and write
+      allow read, write: if isAdmin();
+    }
+  }
+}

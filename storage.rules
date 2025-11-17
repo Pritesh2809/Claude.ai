@@ -1,0 +1,45 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper function to check if user is signed in
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper function to validate file
+    function isValidFile() {
+      return request.resource.size < 10 * 1024 * 1024 // 10MB max
+             && request.resource.contentType.matches('image/.*|application/pdf');
+    }
+
+    // Receipts storage
+    match /receipts/{userId}/{fileName} {
+      // Users can read their own receipts
+      // Admins and other users can read (for verification)
+      allow read: if isSignedIn();
+
+      // Users can only upload to their own folder
+      allow create: if isSignedIn()
+                       && request.auth.uid == userId
+                       && isValidFile();
+
+      // Users can delete their own files
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Transfers proof storage
+    match /transfers/{userId}/{fileName} {
+      // Anyone signed in can read transfer proofs
+      allow read: if isSignedIn();
+
+      // Users can only upload to their own folder
+      allow create: if isSignedIn()
+                       && request.auth.uid == userId
+                       && isValidFile();
+
+      // Users can delete their own files
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+  }
+}
