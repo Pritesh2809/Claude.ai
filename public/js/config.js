@@ -28,8 +28,8 @@ const APP_CONFIG = {
     MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
     ALLOWED_FILE_TYPES: ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'],
     CURRENCY: 'INR',
-    COLLEGE_NAME: 'Your College Name',
-    TRIP_NAME: 'Mumbai Trip 2024'
+    COLLEGE_NAME: 'KPRCAS',
+    TRIP_NAME: 'Mumbai Trip 2025'
 };
 
 // Collection names
